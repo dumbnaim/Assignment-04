@@ -1,0 +1,53 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Set the random seed for reproducibility
+np.random.seed(42)
+
+# Number of random numbers in T distribution
+num_random_numbers = 100
+
+# Degrees of freedom for T distribution
+degrees_of_freedom = 10
+
+# Generate 100 random numbers in T distribution with df=10
+random_numbers = np.random.standard_t(degrees_of_freedom, size=num_random_numbers)
+
+# Calculate mean and standard deviation of the 100 random numbers
+population_mean = np.mean(random_numbers)
+population_std_dev = np.std(random_numbers)
+
+# Number of sampling groups and samples in each group
+num_sampling_groups = 15
+samples_per_group = 30
+
+# Create an array to store the means of each sampling group
+sampling_means = []
+
+# Create sampling groups and calculate means
+for _ in range(num_sampling_groups):
+    # Randomly select 30 samples from the 100 random numbers
+    samples = np.random.choice(random_numbers, size=samples_per_group, replace=False)
+
+    # Calculate the mean of the samples
+    sample_mean = np.mean(samples)
+
+    # Append the mean to the array
+    sampling_means.append(sample_mean)
+
+# Verify Central Limit Theorem
+mean_sampling_means = np.mean(sampling_means)
+std_dev_sampling_means = np.std(sampling_means, ddof=1)  # Use ddof=1 for sample standard deviation
+
+# Plot histogram
+plt.hist(sampling_means, bins='auto', edgecolor='black', alpha=0.7)
+plt.title('Histogram of Sampling Means')
+plt.xlabel('Sample Mean')
+plt.ylabel('Frequency')
+plt.show()
+
+# Print results
+print(f"Population Mean: {population_mean:.4f}")
+print(f"Population Standard Deviation: {population_std_dev:.4f}\n")
+print(f"Mean of Sampling Means: {mean_sampling_means:.4f}")
+print(f"Standard Deviation of Sampling Means: {std_dev_sampling_means:.4f}")
