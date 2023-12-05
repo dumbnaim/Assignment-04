@@ -1,0 +1,14 @@
+import scipy.stats as stats
+
+# Parameters
+n = 12
+p = 0.5
+
+# Calculate mean and standard deviation for the normal approximation
+mean_approx = n * p
+std_dev_approx = (n * p * (1 - p))**0.5
+
+# Calculate the probability using normal approximation
+probability_approx = stats.norm.cdf(6.5, loc=mean_approx, scale=std_dev_approx) - stats.norm.cdf(5.5, loc=mean_approx, scale=std_dev_approx)
+
+print(f"Probability of exactly 6 heads in 12 tosses (using normal approximation): {probability_approx:.4f}")
