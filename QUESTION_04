@@ -1,0 +1,31 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import binom, norm
+
+# Parameters
+number_of_trials = 50
+probability_of_success = 0.2
+
+# Generate binomial distribution
+binomial_distribution = binom(number_of_trials, probability_of_success)
+binomial_samples = binomial_distribution.rvs(size=1000)
+
+# Verify conditions for normal approximation
+if number_of_trials * probability_of_success > 5 and number_of_trials * (1 - probability_of_success) > 5:
+    # Generate normal distribution for approximation
+    mean = number_of_trials * probability_of_success
+    standard_deviation = np.sqrt(number_of_trials * probability_of_success * (1 - probability_of_success))
+    normal_distribution = norm(mean, standard_deviation)
+    normal_samples = normal_distribution.rvs(size=1000)
+
+    # Plot histograms
+    plt.hist(binomial_samples, bins='auto', alpha=0.5, label='Binomial Distribution')
+    plt.hist(normal_samples, bins='auto', alpha=0.5, label='Normal Approximation')
+    plt.title('Binomial Distribution vs Normal Approximation')
+    plt.xlabel('Value')
+    plt.ylabel('Frequency')
+    plt.legend()
+    plt.show()
+
+else:
+    print("Conditions for normal approximation not met.")
