@@ -1,0 +1,25 @@
+import numpy as np
+from scipy.stats import binom
+
+# Parameters
+p = 0.05
+n = 100  
+
+# Step 1: Generate binomial distribution
+binom_dist = binom(n, p)
+
+# Step 2: Verify mean and standard deviation
+mean_verification = n * p
+std_dev_verification = np.sqrt(n * p * (1 - p))
+
+# Step 3: Calculate mean and standard deviation of the generated distribution
+mean_generated = binom_dist.mean()
+std_dev_generated = binom_dist.std()
+
+# Step 4: Print verification results
+print("Verification Results:")
+print(f"Step 1: Generated binomial distribution with n={n} and p={p}")
+print(f"Step 2: Expected Mean (\u03BC): {mean_verification}")
+print(f"        Expected Standard Deviation (\u03C3): {std_dev_verification:.2f}")
+print(f"Step 3: Generated Mean (\u03BC): {mean_generated:.2f}")
+print(f"        Generated Standard Deviation (\u03C3): {std_dev_generated:.2f}")
