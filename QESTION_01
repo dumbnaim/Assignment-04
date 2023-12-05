@@ -1,0 +1,17 @@
+import scipy.stats as stats
+
+# Parameters
+mean = 10.3
+std_dev = 0.65
+
+# a. Less than 9cm
+percentage_less_than_9 = stats.norm.cdf(9, mean, std_dev) * 100
+print(f"a. Percentage less than 9cm: {percentage_less_than_9:.2f}%")
+
+# b. Between 9.5cm and 10.6cm
+percentage_between_9_5_and_10_6 = (stats.norm.cdf(10.6, mean, std_dev) - stats.norm.cdf(9.5, mean, std_dev)) * 100
+print(f"b. Percentage between 9.5cm and 10.6cm: {percentage_between_9_5_and_10_6:.2f}%")
+
+# c. Minimum length for the top 20%
+minimum_length_top_20 = stats.norm.ppf(0.8, mean, std_dev)
+print(f"c. Minimum length for the top 20%: {minimum_length_top_20:.2f}cm")
