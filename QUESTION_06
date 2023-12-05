@@ -1,0 +1,14 @@
+import scipy.stats as stats
+
+# Parameters
+n = 150
+p = 0.06
+
+# Calculate mean and standard deviation for the normal approximation
+mean_approx = n * p
+std_dev_approx = (n * p * (1 - p))**0.5
+
+# Calculate the probability using normal approximation
+probability_approx = 1 - stats.norm.cdf(11.5, loc=mean_approx, scale=std_dev_approx)
+
+print(f"Probability of 12 or more defective batteries in a sample of 150 (using normal approximation): {probability_approx:.4f}")
