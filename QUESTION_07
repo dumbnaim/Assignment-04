@@ -1,53 +1,42 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.stats import t
 
-# Set the random seed for reproducibility
-np.random.seed(42)
-
-# Number of random numbers in T distribution
-num_random_numbers = 100
-
-# Degrees of freedom for T distribution
+# Step 1: Generate 100 random numbers from t-distribution with df=10
 degrees_of_freedom = 10
+random_numbers = t.rvs(degrees_of_freedom, size=100)
 
-# Generate 100 random numbers in T distribution with df=10
-random_numbers = np.random.standard_t(degrees_of_freedom, size=num_random_numbers)
-
-# Calculate mean and standard deviation of the 100 random numbers
+# Step 2: Calculate mean (μ) and standard deviation (σ) of these numbers
 population_mean = np.mean(random_numbers)
 population_std_dev = np.std(random_numbers)
 
-# Number of sampling groups and samples in each group
+# Step 3: Create 15 sampling groups, each with 30 samples
+num_samples_per_group = 30
 num_sampling_groups = 15
-samples_per_group = 30
+sampling_group_means = []
 
-# Create an array to store the means of each sampling group
-sampling_means = []
-
-# Create sampling groups and calculate means
 for _ in range(num_sampling_groups):
-    # Randomly select 30 samples from the 100 random numbers
-    samples = np.random.choice(random_numbers, size=samples_per_group, replace=False)
+    sample = np.random.choice(random_numbers, size=num_samples_per_group, replace=False)
+    sampling_group_means.append(np.mean(sample))
 
-    # Calculate the mean of the samples
-    sample_mean = np.mean(samples)
+# Step 4: Calculate the mean of the sampling group means
+mean_of_means = np.mean(sampling_group_means)
 
-    # Append the mean to the array
-    sampling_means.append(sample_mean)
+# Step 5: Verify CLT
+# The standard deviation of the sample means (σx) should be close to σ/√n
+std_dev_sample_means = np.std(sampling_group_means, ddof=1)
+expected_std_dev_sample_means = population_std_dev / np.sqrt(num_samples_per_group)
 
-# Verify Central Limit Theorem
-mean_sampling_means = np.mean(sampling_means)
-std_dev_sampling_means = np.std(sampling_means, ddof=1)  # Use ddof=1 for sample standard deviation
-
-# Plot histogram
-plt.hist(sampling_means, bins='auto', edgecolor='black', alpha=0.7)
-plt.title('Histogram of Sampling Means')
-plt.xlabel('Sample Mean')
+# Step 6: Plot histogram of the sample means
+plt.hist(sampling_group_means, bins='auto', edgecolor='black', alpha=0.7)
+plt.xlabel('Sample Means')
 plt.ylabel('Frequency')
+plt.title('Histogram of Sample Means')
 plt.show()
 
-# Print results
-print(f"Population Mean: {population_mean:.4f}")
-print(f"Population Standard Deviation: {population_std_dev:.4f}\n")
-print(f"Mean of Sampling Means: {mean_sampling_means:.4f}")
-print(f"Standard Deviation of Sampling Means: {std_dev_sampling_means:.4f}")
+# Step 7: Print results
+print(f"Population Mean (μ): {population_mean:.4f}")
+print(f"Population Standard Deviation (σ): {population_std_dev:.4f}\n")
+print(f"Mean of Sampling Group Means (μx): {mean_of_means:.4f}")
+print(f"Standard Deviation of Sampling Group Means (σx): {std_dev_sample_means:.4f}")
+print(f"Expected Standard Deviation of Sampling Group Means: {expected_std_dev_sample_means:.4f}")
